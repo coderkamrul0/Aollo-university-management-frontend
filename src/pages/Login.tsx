@@ -1,25 +1,28 @@
-import { Button } from "antd";
-import { FieldValues, useForm } from "react-hook-form";
+import { Button, Row } from "antd";
+import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { TUser, setUser } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import PHForm from "../components/form/PHForm";
+import PHInput from "../components/form/PHInput";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      id: "A-0001",
-      password: "admin123",
-    },
-  });
+  
+
+  const defaultValues = {
+    id: "A-0001",
+    password: "admin123"
+  }
 
   const [login] = useLoginMutation();
 
   const onSubmit = async (data: FieldValues) => {
+    console.log(data);
     const toastId = toast.loading("Logging in");
     try {
       const userInfo = {
@@ -37,58 +40,19 @@ const Login = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          maxWidth: "300px",
-          padding: "20px",
-          border: "1px solid #ddd",
-          borderRadius: "5px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-        }}
-      >
+    <Row justify={"center"} align={"middle"} style={{ height: "100vh" }}>
+      <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
         <div style={{ marginBottom: "10px", width: "100%" }}>
-          <label htmlFor="id">ID:</label>
-          <input
-            type="text"
-            id="id"
-            {...register("id")}
-            style={{
-              padding: "8px",
-              boxSizing: "border-box",
-              width: "100%",
-            }}
-          />
+          <PHInput type={"text"} name={"id"} label={"ID:"} />
         </div>
         <div style={{ marginBottom: "10px", width: "100%" }}>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="text"
-            id="password"
-            {...register("password")}
-            style={{
-              padding: "8px",
-              boxSizing: "border-box",
-              width: "100%",
-            }}
-          />
+          <PHInput type="text" name="password" label={"Password:"} />
         </div>
         <Button htmlType="submit" style={{ width: "100%" }}>
           Login
         </Button>
-      </form>
-    </div>
+      </PHForm>
+    </Row>
   );
 };
 
