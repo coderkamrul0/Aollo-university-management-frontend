@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -31,7 +32,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
 
   if(result.error?.status === 404){
-    toast.error('User not found.')
+    toast.error(result.error.data.message)
   }
 
 
