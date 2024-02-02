@@ -5,7 +5,7 @@ import PHSelect from "../../../components/form/PHSelect";
 import { semesterOptions } from "../../../constants/semester";
 import { monthOptions } from "../../../constants/global";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
+import { academicSemesterSchema } from "../../../schemas/academicManagement.schema";
 
 const currentYear = new Date().getFullYear();
 const yearOptions = [0, 1, 2, 3, 4].map((number) => ({
@@ -28,13 +28,6 @@ const CreateAcademicSemester = () => {
 
     console.log(semesterData);
   };
-
-  const academicSemesterSchema = z.object({
-    name: z.string({ required_error: "Name is required" }),
-    year: z.string({ required_error: "Year is required" }),
-    startMonth: z.string({ required_error: "Start Month is required" }),
-    endMonth: z.string({ required_error: "End Month is required" }),
-  });
 
   return (
     <Flex justify="center" align="center">
