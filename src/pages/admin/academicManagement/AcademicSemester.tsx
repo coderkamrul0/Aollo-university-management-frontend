@@ -5,7 +5,6 @@ interface DataType {
   _id: string;
   name: string;
   year: string;
-  code: string;
   startMonth: string;
   endMonth: string;
 }
@@ -41,6 +40,7 @@ const onChange: TableProps<DataType>["onChange"] = (
 
 const AcademicSemester = () => {
   const { data: semesterData } = useGetAllSemestersQuery(undefined);
+  console.log(semesterData);
 
   const tableData = semesterData?.data?.map(
     ({ _id, name, year, startMonth, endMonth }) => ({
