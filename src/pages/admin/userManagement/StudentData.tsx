@@ -63,9 +63,11 @@ const StudentData = () => {
                 Details
               </Button>
             </Link>
-            <Button size="small" type="default">
-              Update
-            </Button>
+            <Link to={`/admin/student-data/${item._id}`}>
+              <Button size="small" type="default">
+                Update
+              </Button>
+            </Link>
             <Button size="small" danger>
               Block
             </Button>
