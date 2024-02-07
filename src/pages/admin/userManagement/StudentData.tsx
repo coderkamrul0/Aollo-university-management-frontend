@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { TQueryParam, TStudent } from "../../../types";
 import { useGetStudentsQuery } from "../../../redux/features/admin/userManagement.api";
+import { Link } from "react-router-dom";
 
 export type DataType = Pick<
   TStudent,
@@ -20,7 +21,6 @@ const StudentData = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
   const [page, setPage] = useState(1);
   const { data: studentData, isFetching } = useGetStudentsQuery([
-    { name: "limit", value: 2 },
     { name: "page", value: page },
     { name: "sort", value: "id" },
     ...params,
@@ -54,12 +54,15 @@ const StudentData = () => {
     },
     {
       title: "Action",
-      render: () => {
+      render: (item) => {
+        console.log(item);
         return (
           <Space>
-            <Button size="small" type="primary">
-              Details
-            </Button>
+            <Link to={`/admin/students-data/${item._id}`}>
+              <Button size="small" type="primary">
+                Details
+              </Button>
+            </Link>
             <Button size="small" type="default">
               Update
             </Button>
@@ -113,7 +116,7 @@ const StudentData = () => {
         pagination={false}
       />
       <Pagination
-      current={page}
+        current={page}
         onChange={(value) => setPage(value)}
         pageSize={metaData?.limit}
         total={metaData?.total}
