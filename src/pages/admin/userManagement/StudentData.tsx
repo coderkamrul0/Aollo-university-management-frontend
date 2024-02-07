@@ -1,4 +1,11 @@
-import { Button, Space, Table, TableColumnsType, TableProps } from "antd";
+import {
+  Button,
+  Pagination,
+  Space,
+  Table,
+  TableColumnsType,
+  TableProps,
+} from "antd";
 
 import { useState } from "react";
 import { TQueryParam, TStudent } from "../../../types";
@@ -10,9 +17,16 @@ export type DataType = Pick<
 >;
 
 const StudentData = () => {
-  const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
-  const { data: studentData, isFetching } = useGetStudentsQuery(params);
-  console.log(studentData);
+  const [params, setParams] = useState<TQueryParam[]>([]);
+  const [page, setPage] = useState(1);
+  const { data: studentData, isFetching } = useGetStudentsQuery([
+    { name: "limit", value: 2 },
+    { name: "page", value: page },
+    { name: "sort", value: "id" },
+    ...params,
+  ]);
+  const metaData = studentData?.meta;
+  console.log(metaData);
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -55,7 +69,7 @@ const StudentData = () => {
           </Space>
         );
       },
-      width: '10%'
+      width: "10%",
     },
   ];
 
@@ -89,13 +103,22 @@ const StudentData = () => {
   );
 
   return (
-    <Table
-      loading={isFetching}
-      columns={columns}
-      dataSource={tableData}
-      onChange={onChange}
-      rowKey="_id"
-    />
+    <>
+      <Table
+        loading={isFetching}
+        columns={columns}
+        dataSource={tableData}
+        onChange={onChange}
+        rowKey="_id"
+        pagination={false}
+      />
+      <Pagination
+      current={page}
+        onChange={(value) => setPage(value)}
+        pageSize={metaData?.limit}
+        total={metaData?.total}
+      />
+    </>
   );
 };
 

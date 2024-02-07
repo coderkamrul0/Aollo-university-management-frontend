@@ -82,9 +82,7 @@ const studentDefaultValues = {
 };
 
 const CreateStudent = () => {
-  const [addStudent, { data, error }] = useAddStudentMutation();
-  console.log("Submit data -->", data);
-  console.log("Submit error -->", error);
+  const [addStudent] = useAddStudentMutation();
   const { data: sData, isLoading: sIsLoading } =
     useGetAllSemestersQuery(undefined);
   const { data: dData, isLoading: dIsLoading } =
@@ -104,8 +102,6 @@ const CreateStudent = () => {
       student: data,
     };
 
-    console.log("From Data -->", studentData);
-
     const formData = new FormData();
     formData.append("data", JSON.stringify(studentData));
     formData.append("file", data.image);
@@ -113,7 +109,7 @@ const CreateStudent = () => {
     addStudent(formData);
 
     // This is for development jus for checking.
-    console.log("Form Object data -->", Object.fromEntries(formData));
+    // console.log("Form Object data -->", Object.fromEntries(formData));
   };
 
   return (
