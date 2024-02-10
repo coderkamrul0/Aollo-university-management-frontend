@@ -4,14 +4,18 @@ import PHForm from "../../../components/form/PHForm";
 import { Button, Col, Flex } from "antd";
 import { toast } from "sonner";
 import PHInput from "../../../components/form/PHInput";
-import { useGetAllCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
+import {
+  useAddCourseMutation,
+  useGetAllCoursesQuery,
+} from "../../../redux/features/admin/courseManagement.api";
 import { TResponse } from "../../../types";
 import PHSelect from "../../../components/form/PHSelect";
 
 const CreateCourse = () => {
   const { data: courses } = useGetAllCoursesQuery(undefined);
+  const [createCourse] = useAddCourseMutation();
 
-  const preRequisiteCourseOptions = courses?.data?.map((item) => ({
+  const preRequisiteCourseOptions = courses?.data?.map((item: any) => ({
     value: item._id,
     label: item.prefix,
   }));
@@ -21,25 +25,29 @@ const CreateCourse = () => {
 
     const courseData = {
       ...data,
+      code: Number(data.code),
+      credits: Number(data.credits),
       isDeleted: false,
-      preRequisiteCourses: data.preRequisiteCourses.map((item) => ({
-        course: item,
-        isDeleted: false,
-      })),
+      preRequisiteCourses: data.preRequisiteCourses
+        ? data.preRequisiteCourses?.map((item: any) => ({
+            course: item,
+            isDeleted: false,
+          }))
+        : [],
     };
 
     console.log(courseData);
 
-    // try {
-    //   const res = (await addRegisterSemester(semesterData)) as TResponse<any>;
-    //   if (res.error) {
-    //     toast.error(res.error.data.message, { id: toastId });
-    //   } else {
-    //     toast.success("Semester Created.", { id: toastId });
-    //   }
-    // } catch (error) {
-    //   toast.error("Something went wrong.", { id: toastId });
-    // }
+    try {
+      const res = (await createCourse(courseData)) as TResponse<any>;
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        toast.success("Course Created.", { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Something went wrong.", { id: toastId });
+    }
   };
 
   return (
