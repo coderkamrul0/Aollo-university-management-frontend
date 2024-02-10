@@ -100,7 +100,7 @@ const RegisteredSemesters = () => {
   const tableData = semesterData?.data?.map(
     ({ _id, academicSemester, startDate, endDate, status }) => ({
       _id,
-      name: `${academicSemester.name} - ${academicSemester.year}`,
+      name: `${academicSemester?.name} - ${academicSemester?.year}`,
       startDate,
       endDate,
       status,
