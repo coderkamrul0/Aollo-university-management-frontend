@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { TQueryParam, TResponseRedux, TSemester } from "../../../types";
+import {
+  TCourse,
+  TQueryParam,
+  TResponseRedux,
+  TSemester,
+} from "../../../types";
 import { baseApi } from "../../api/baseApi";
 
 const courseManagementApi = baseApi.injectEndpoints({
@@ -60,7 +65,7 @@ const courseManagementApi = baseApi.injectEndpoints({
         };
       },
       providesTags: ["course"],
-      transformResponse: (response: TResponseRedux<any>) => {
+      transformResponse: (response: TResponseRedux<TCourse[]>) => {
         return {
           data: response?.data,
           meta: response?.meta,
