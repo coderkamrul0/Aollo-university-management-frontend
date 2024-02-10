@@ -12,11 +12,11 @@ import StudentData from "../pages/admin/userManagement/StudentData";
 import StudentDetails from "../pages/admin/userManagement/StudentDetails";
 import SemesterRegistration from "../pages/admin/courseManagement/SemesterRegistration";
 import StudentUpdate from "../pages/admin/userManagement/StudentUpdate";
-import RegisteredSemesters from "../pages/admin/courseManagement/registeredSemesters";
-import CreateCourse from "../pages/admin/courseManagement/createCourse";
 import Course from "../pages/admin/courseManagement/Course";
 import OfferCourse from "../pages/admin/courseManagement/OfferCourse";
 import OfferedCourse from "../pages/admin/courseManagement/OfferedCourse";
+import RegisteredSemesters from "../pages/admin/courseManagement/RegisteredSemesters";
+import CreateCourse from "../pages/admin/courseManagement/CreateCourse";
 
 export const adminPath = [
   {
