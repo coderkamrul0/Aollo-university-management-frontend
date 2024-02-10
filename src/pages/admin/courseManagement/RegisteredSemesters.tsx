@@ -1,4 +1,4 @@
-import { Button, Table, TableColumnsType } from "antd";
+import { Button, Dropdown, Table, TableColumnsType, Tag } from "antd";
 
 import { useGetRegisteredSemesterQuery } from "../../../redux/features/admin/courseManagement.api";
 import moment from "moment";
@@ -11,9 +11,33 @@ interface DataType {
   endDate: string;
 }
 
+const items = [
+  {
+    label: "Upcoming",
+    key: "UPCOMING",
+  },
+  {
+    label: "Ongoing",
+    key: "ONGOING",
+  },
+  {
+    label: "Ended",
+    key: "ENDED",
+  },
+];
+
 const RegisteredSemesters = () => {
   const { data: semesterData, isFetching } =
     useGetRegisteredSemesterQuery(undefined);
+
+  const handleStatusDropdown = (data) => {
+    console.log(data);
+  };
+
+  const menuProps = {
+    items,
+    onClick: handleStatusDropdown,
+  };
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -24,24 +48,35 @@ const RegisteredSemesters = () => {
     {
       title: "Status",
       dataIndex: "status",
+      render: (item) => {
+        let color;
+        if (item === "ONGOING") {
+          color = "green";
+        } else if (item === "UPCOMING") {
+          color = "blue";
+        } else {
+          color = "red";
+        }
+        return <Tag color={color}>{item}</Tag>;
+      },
     },
     {
       title: "Start Date",
       dataIndex: "startDate",
-      render: (startDate: string) => moment(startDate).format("YYYY-MM-DD"), 
+      render: (startDate: string) => moment(startDate).format("MMM-DD-YYYY"),
     },
     {
       title: "End Date",
       dataIndex: "endDate",
-      render: (endDate: string) => moment(endDate).format("YYYY-MM-DD"), 
+      render: (endDate: string) => moment(endDate).format("MMM-DD-YYYY"),
     },
     {
       title: "Action",
       render: () => {
         return (
-          <div>
+          <Dropdown menu={menuProps}>
             <Button>Update</Button>
-          </div>
+          </Dropdown>
         );
       },
     },
